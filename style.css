@@ -1,3 +1,51 @@
 body {
-    background-color: red;
+    background: #deb33c;
+    background: linear-gradient(90deg, hsla(44, 71%, 55%, 0.5) 14%, hsla(61, 50%, 60%, 0.5) 31%, hsla(78, 48%, 55%, 0.5) 47%, hsla(143, 46%, 53%, 0.5) 62%, hsla(143, 45%, 49%, 0.5) 72%, hsla(143, 30%, 50%, 0.5) 82%, hsla(143, 61%, 59%, 0.5) 92%);
+}
+
+h1 {
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+  font-size: clamp(1.2rem, 8vw, 2.5rem);
+  color: hsl(17, 74%, 54%);
+}
+
+.main {
+  height: calc(100vh - 62px);
+  display: flex;
+  justify-content: center;
+}
+
+.game-container {
+  max-height: 50%;
+  min-height: 300px;
+  aspect-ratio: 1 / 1;
+  min-width: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.row > button {
+  flex: 1;
+  font-size: clamp(2rem, 12vw, 3.5rem);
+  cursor: pointer;
+  transition: all 0.05s ease-in-out;
+  border: none;
+  font-weight: 100;
+  background-color: transparent;
+}
+
+.row:not(:last-child) {
+  border-bottom: 2px solid black;
+}
+
+.row > .column {
+    border-right: 2px solid hsl(120, 100%, 25%);
+    border-left: 2px solid hsl(120, 100%, 25%);
 }
