@@ -1,11 +1,39 @@
 body {
-    background: #deb33c;
-    background: linear-gradient(90deg, hsla(44, 71%, 55%, 0.5) 14%, hsla(61, 50%, 60%, 0.5) 31%, hsla(78, 48%, 55%, 0.5) 47%, hsla(143, 46%, 53%, 0.5) 62%, hsla(143, 45%, 49%, 0.5) 72%, hsla(143, 30%, 50%, 0.5) 82%, hsla(143, 61%, 59%, 0.5) 92%);
+  animation: gradient 200s ease infinite;
+  background-color: #eaeaea;
+  background-size: 20px 20px;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 191, 255, 0.5),
+      rgba(0, 191, 255, 0.5) 1px,
+      transparent 1px,
+      transparent 15px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 105, 180, 0.5),
+      rgba(255, 105, 180, 0.5) 1px,
+      transparent 1px,
+      transparent 15px
+    );
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 51% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 51% 0%;
+  }
 }
 
 h1 {
   text-align: center;
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
   font-size: clamp(1.2rem, 8vw, 2.5rem);
   color: hsl(17, 74%, 54%);
 }
@@ -33,7 +61,7 @@ h1 {
 
 .row > button {
   flex: 1;
-  font-size: clamp(2rem, 12vw, 3.5rem);
+  font-size: clamp(2rem, 12vw, 4rem);
   cursor: pointer;
   transition: all 0.05s ease-in-out;
   border: none;
@@ -46,6 +74,6 @@ h1 {
 }
 
 .row > .column {
-    border-right: 2px solid hsl(120, 100%, 25%);
-    border-left: 2px solid hsl(120, 100%, 25%);
+  border-right: 2px solid hsl(120, 100%, 25%);
+  border-left: 2px solid hsl(120, 100%, 25%);
 }
