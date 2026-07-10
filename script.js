@@ -1,19 +1,34 @@
-const buttons = document.querySelectorAll('button');
+const GameBoard = (function () {
+  let board = ['', '', '', '', '', '', '', '', ''];
 
-let check = true;
+  const getBoard = () => [...board];
 
-buttons.forEach(function(button) {
-    button.addEventListener('click', () => {
-        if(check) {
-            button.textContent = 'X';
-            check = false;
-            button.disabled = true;
-            button.style.color = 'darkgreen';
-        } else if(check === false){
-            button.textContent = 'O';
-            button.disabled = true;
-            button.style.color = 'darkred';
-            check = true;
-        }
-    });
-});
+  const resetBoard = () => (board = Array(9).fill(''));
+
+  const placeMarker = (index, marker) => {
+    if(isCellEmpty(index)) {
+      board[index] = marker;
+    } 
+  };
+
+  const isCellEmpty = (index) => {
+     return board[index] === '';
+  };
+
+  return { getBoard, resetBoard, placeMarker, isCellEmpty };
+
+})();
+
+function Player(name, marker) {
+  return { name, marker };
+}
+
+
+  GameBoard.placeMarker(0,'O');
+  GameBoard.placeMarker(1,'X'); 
+  GameBoard.placeMarker(2,'O'); 
+  GameBoard.placeMarker(5,'X'); 
+  GameBoard.placeMarker(8,'O'); 
+  GameBoard.placeMarker(1,'O'); // This  will not apply
+
+console.log(GameBoard.getBoard());
