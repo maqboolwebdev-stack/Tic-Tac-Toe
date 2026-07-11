@@ -1,5 +1,6 @@
 body {
-  animation: gradient 200s ease infinite;
+  /* animation: gradient 200s ease infinite; */
+  font-family: cursive;
   background-color: #eaeaea;
   background-size: 20px 20px;
   background-image:
@@ -33,7 +34,6 @@ body {
 
 h1 {
   text-align: center;
-  font-family: 'Courier New', Courier, monospace;
   font-size: clamp(1.2rem, 8vw, 2.5rem);
   color: hsl(17, 74%, 54%);
 }
@@ -41,7 +41,9 @@ h1 {
 .main {
   height: calc(100vh - 62px);
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
 }
 
 .game-container {
@@ -76,4 +78,43 @@ h1 {
 .row > .column {
   border-right: 2px solid hsl(120, 100%, 25%);
   border-left: 2px solid hsl(120, 100%, 25%);
+}
+
+
+/* Information container */
+
+.information-container {
+  max-height: 50%;
+  min-height: 300px;
+  aspect-ratio: 1 / 1;
+  min-width: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.winner {
+  font-size: clamp(1.2rem, 8vw, 2rem);
+  text-align: center;
+  color: hsl(17, 74%, 54%);
+}
+
+.restart-btn {
+  background-color: hsl(17, 74%, 54%);
+  color: white;
+  font-size: clamp(1rem, 5vw, 1.5rem);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.restart-btn:hover {
+  background-color: transparent;
+  color: hsl(17, 74%, 54%);
+  border: 1px solid hsla(17, 74%, 54%);
+}
+
+.restart-btn:active {
+  transform: scaleX(0.95);
 }
