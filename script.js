@@ -24,31 +24,27 @@ function Player(name, marker) {
 }
 
 const GameController = (function () {
-
   const player1 = Player('Player-1', 'X');
   const player2 = Player('Player-2', 'O');
 
   let currentPlayer = player1;
   let gameOver = false;
-  
 
   const playRound = (index) => {
-    
-    if(gameOver) return;
+    if (gameOver) return;
     GameBoard.placeMarker(index, currentPlayer.marker);
 
-
-
-    
-    if(checkWinner(currentPlayer)){
-      console.log(`${currentPlayer.name} Marker: '${currentPlayer.marker}' is the winner!`);
+    if (checkWinner(currentPlayer)) {
+      console.log(
+        `${currentPlayer.name} Marker: '${currentPlayer.marker}' is the winner!`,
+      );
       gameOver = true;
       return;
     }
-    if(checkTie()) {
-console.log(`Game is Tie, Try Again!`);
-gameOver = true;
-return;
+    if (checkTie()) {
+      console.log(`Game is Tie, Try Again!`);
+      gameOver = true;
+      return;
     }
 
     switchPlayer();
@@ -63,7 +59,6 @@ return;
   };
 
   const checkWinner = (currentPlayer) => {
-
     const board = GameBoard.getBoard();
 
     const winningPattern = [
@@ -82,17 +77,15 @@ return;
       [6, 4, 2],
     ];
 
-
-return winningPattern.some( pattern =>
-  pattern.every(index => board[index] === currentPlayer.marker)
-)
-
+    return winningPattern.some((pattern) =>
+      pattern.every((index) => board[index] === currentPlayer.marker),
+    );
   };
 
   const checkTie = () => {
     const board = GameBoard.getBoard();
 
-     return board.every(cell => cell !== '' &&  checkWinner);
+    return board.every((cell) => cell !== '' && checkWinner);
   };
 
   return {
@@ -106,43 +99,30 @@ return winningPattern.some( pattern =>
   };
 })();
 
+const DisplayController = (function () {
+  const cells = document.querySelectorAll('.cell');
+  const cellsArray = Array.from(cells);
 
-          // This is the X winner Pattern
-          // GameController.playRound(0);
-          // GameController.playRound(1);
-          // GameController.playRound(2);
+  const renderBoard = () => {
+    const board = GameBoard.getBoard();
 
-          // GameController.playRound(3);
-          // GameController.playRound(4);
-          // GameController.playRound(5);
+    cells.forEach((cell, index) => {
+      cell.textContent = board[index];
+    });
+  };
 
-          // GameController.playRound(6);
-        // <<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>
+  cells.forEach((cell) => {
+    cell.addEventListener('click', function (event) {
+      const index = cellsArray.indexOf(event.target);
 
-          //This is a O winner Pattern
-          // GameController.playRound(1);
-          // GameController.playRound(0);
-          // GameController.playRound(2);
-// 
-          // GameController.playRound(3);
-          // GameController.playRound(5);
-          // GameController.playRound(6);
+      GameController.playRound(index);
+      renderBoard();
+      console.log('yes');
+      console.log(GameBoard.getBoard());
+    });
+  });
 
-// This is Tie Pattern
-GameController.playRound(0);
-GameController.playRound(1);
-GameController.playRound(2);
-
-GameController.playRound(4); 
-GameController.playRound(3)
-GameController.playRound(5);
-
-GameController.playRound(8);
-GameController.playRound(6);
-GameController.playRound(7);
-
-
-// GameBoard.resetBoard();
-
-
-console.log(GameBoard.getBoard());
+  return {
+    renderBoard,
+  };
+})();
