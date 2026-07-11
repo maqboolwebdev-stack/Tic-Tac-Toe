@@ -30,6 +30,7 @@ const GameController = (function () {
 
   let currentPlayer = player1;
   let gameOver = false;
+  
 
   const playRound = (index) => {
     
@@ -44,6 +45,12 @@ const GameController = (function () {
       gameOver = true;
       return;
     }
+    if(checkTie()) {
+console.log(`Game is Tie, Try Again!`);
+gameOver = true;
+return;
+    }
+
     switchPlayer();
   };
 
@@ -82,7 +89,11 @@ return winningPattern.some( pattern =>
 
   };
 
-  const checkTie = () => {};
+  const checkTie = () => {
+    const board = GameBoard.getBoard();
+
+     return board.every(cell => cell !== '' &&  checkWinner);
+  };
 
   return {
     player1,
@@ -95,18 +106,43 @@ return winningPattern.some( pattern =>
   };
 })();
 
-GameController.playRound(0); // X
-GameController.playRound(3); //O
-GameController.playRound(1); // X
 
-GameController.playRound(5); //O
-GameController.playRound(2); // X
-GameController.playRound(4); // O  This will not work
-GameController.playRound(4); // X This will not work
+          // This is the X winner Pattern
+          // GameController.playRound(0);
+          // GameController.playRound(1);
+          // GameController.playRound(2);
+
+          // GameController.playRound(3);
+          // GameController.playRound(4);
+          // GameController.playRound(5);
+
+          // GameController.playRound(6);
+        // <<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>
+
+          //This is a O winner Pattern
+          // GameController.playRound(1);
+          // GameController.playRound(0);
+          // GameController.playRound(2);
+// 
+          // GameController.playRound(3);
+          // GameController.playRound(5);
+          // GameController.playRound(6);
+
+// This is Tie Pattern
+GameController.playRound(0);
+GameController.playRound(1);
+GameController.playRound(2);
+
+GameController.playRound(4); 
+GameController.playRound(3)
+GameController.playRound(5);
+
+GameController.playRound(8);
+GameController.playRound(6);
+GameController.playRound(7);
+
 
 // GameBoard.resetBoard();
 
 
 console.log(GameBoard.getBoard());
-
-
