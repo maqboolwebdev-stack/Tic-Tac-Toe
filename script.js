@@ -36,17 +36,12 @@ const GameController = (function () {
     const success = GameBoard.placeMarker(index, currentPlayer.marker);
 if(!success) return
     if (checkWinner(currentPlayer)) {
-      console.log(
-        `${currentPlayer.name} Marker: '${currentPlayer.marker}' is the winner!`,
-      );
-
       winnerText.textContent = `${currentPlayer.name}: with Marker:'${currentPlayer.marker}' is the winner!`;
 
       gameOver = true;
       return;
     }
     if (checkTie()) {      
-      console.log(`Game is Tie, Try Again!`);
       winnerText.textContent = `Game is Tie, Try Again!`;
       gameOver = true;
       return;
@@ -131,8 +126,6 @@ const DisplayController = (function () {
 
       GameController.playRound(index);
       renderBoard();
-      console.log('yes');
-      console.log(GameBoard.getBoard());
     });
   });
 
