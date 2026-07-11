@@ -29,20 +29,25 @@ const GameController = (function () {
 
   let currentPlayer = player1;
   let gameOver = false;
+      const winnerText = document.querySelector('.winner');
 
   const playRound = (index) => {
     if (gameOver) return;
-    GameBoard.placeMarker(index, currentPlayer.marker);
-
+    const success = GameBoard.placeMarker(index, currentPlayer.marker);
+if(!success) return
     if (checkWinner(currentPlayer)) {
       console.log(
         `${currentPlayer.name} Marker: '${currentPlayer.marker}' is the winner!`,
       );
+
+      winnerText.textContent = `${currentPlayer.name}: with Marker:'${currentPlayer.marker}' is the winner!`;
+
       gameOver = true;
       return;
     }
-    if (checkTie()) {
+    if (checkTie()) {      
       console.log(`Game is Tie, Try Again!`);
+      winnerText.textContent = `Game is Tie, Try Again!`;
       gameOver = true;
       return;
     }
@@ -88,21 +93,30 @@ const GameController = (function () {
     return board.every((cell) => cell !== '' && checkWinner);
   };
 
+  const restartGame = () => {
+    GameBoard.resetBoard();
+
+    currentPlayer = player1;
+
+    gameOver = false;
+  }
+
   return {
-    player1,
-    player2,
-    currentPlayer,
     playRound,
     switchPlayer,
     checkWinner,
     checkTie,
+    restartGame,
   };
 })();
 
 const DisplayController = (function () {
   const cells = document.querySelectorAll('.cell');
   const cellsArray = Array.from(cells);
+  const restartBtn = document.querySelector('.restart-btn');
+      const winnerText = document.querySelector('.winner');
 
+  
   const renderBoard = () => {
     const board = GameBoard.getBoard();
 
@@ -122,7 +136,15 @@ const DisplayController = (function () {
     });
   });
 
+  restartBtn.addEventListener('click', function() {
+    GameController.restartGame();
+    renderBoard();
+    winnerText.textContent = '';
+  })
+
   return {
     renderBoard,
   };
 })();
+
+DisplayController.renderBoard()
