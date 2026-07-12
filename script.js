@@ -6,17 +6,16 @@ const GameBoard = (function () {
   const resetBoard = () => (board = Array(9).fill(''));
 
   const placeMarker = (index, marker) => {
-    if (!isCellEmpty(index)) return false;
-
+    if (board[index] !== '') return false;
     board[index] = marker;
     return true;
   };
 
-  const isCellEmpty = (index) => {
-    return board[index] === '';
+  return {
+    getBoard,
+    resetBoard,
+    placeMarker,
   };
-
-  return { getBoard, resetBoard, placeMarker, isCellEmpty };
 })();
 
 function Player(name, marker) {
@@ -29,115 +28,108 @@ const GameController = (function () {
 
   let currentPlayer = player1;
   let gameOver = false;
-      const winnerText = document.querySelector('.winner');
 
   const playRound = (index) => {
     if (gameOver) return;
+
     const success = GameBoard.placeMarker(index, currentPlayer.marker);
-if(!success) return
-    if (checkWinner(currentPlayer)) {
-      winnerText.textContent = `${currentPlayer.name}: with Marker:'${currentPlayer.marker}' is the winner!`;
+    if (!success) return;
 
+    if (checkWinner()) {
       gameOver = true;
-      return;
-    }
-    if (checkTie()) {      
-      winnerText.textContent = `Game is Tie, Try Again!`;
-      gameOver = true;
-      return;
+      return { winner: currentPlayer, tie: false, gameOver: true };
     }
 
-    switchPlayer();
+    if (checkTie()) {
+      gameOver = true;
+
+      return { winner: null, tie: true, gameOver: true };
+    }
+
+    currentPlayer = currentPlayer === player1 ? player2 : player1;
+
+    return {
+      winner: null,
+      tie: false,
+      gameOver: false,
+      nextPlayer: currentPlayer,
+    };
   };
 
-  const switchPlayer = () => {
-    if (currentPlayer === player1) {
-      currentPlayer = player2;
-    } else {
-      currentPlayer = player1;
-    }
-  };
-
-  const checkWinner = (currentPlayer) => {
+  const checkWinner = () => {
     const board = GameBoard.getBoard();
-
     const winningPattern = [
-      // Horizontal pattern
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
-
-      // Vertical pattern
+      //  horizontal Pattern ^
       [0, 3, 6],
       [1, 4, 7],
       [2, 5, 8],
-
-      // diagonal pattern
+      // Vertical Pattern ^
       [0, 4, 8],
       [6, 4, 2],
+      // Diagonal Patten
     ];
-
     return winningPattern.some((pattern) =>
-      pattern.every((index) => board[index] === currentPlayer.marker),
+      pattern.every(
+        (index) => board[index] !== '' && board[index] === currentPlayer.marker,
+      ),
     );
   };
 
   const checkTie = () => {
-    const board = GameBoard.getBoard();
-
-    return board.every((cell) => cell !== '' && checkWinner);
+    return GameBoard.getBoard().every((cell) => cell !== '');
   };
 
   const restartGame = () => {
     GameBoard.resetBoard();
-
     currentPlayer = player1;
-
     gameOver = false;
-  }
-
-  return {
-    playRound,
-    switchPlayer,
-    checkWinner,
-    checkTie,
-    restartGame,
   };
+
+  return { 
+    playRound,
+    restartGame, 
+    getCurrentPlayer: () => currentPlayer
+   };
+
 })();
 
 const DisplayController = (function () {
+
   const cells = document.querySelectorAll('.cell');
-  const cellsArray = Array.from(cells);
   const restartBtn = document.querySelector('.restart-btn');
-      const winnerText = document.querySelector('.winner');
+  const winnerText = document.querySelector('.winner');
 
-  
-  const renderBoard = () => {
+  const renderBoard = (result) => {
+
     const board = GameBoard.getBoard();
-
     cells.forEach((cell, index) => {
       cell.textContent = board[index];
+
     });
+
+    if (result && result.gameOver) {
+      if (result.tie) winnerText.textContent = 'Game is Tie!';
+      else
+        winnerText.textContent = `${result.winner.name}('${result.winner.marker}') wins!`;
+    } else {
+      winnerText.textContent = '';
+    }
   };
 
-  cells.forEach((cell) => {
-    cell.addEventListener('click', function (event) {
-      const index = cellsArray.indexOf(event.target);
-
-      GameController.playRound(index);
-      renderBoard();
+  cells.forEach((cell, index) => {
+    cell.addEventListener('click', () => {
+      const result = GameController.playRound(index);
+      if (result) renderBoard(result);
     });
   });
 
-  restartBtn.addEventListener('click', function() {
+  restartBtn.addEventListener('click', () => {
     GameController.restartGame();
     renderBoard();
-    winnerText.textContent = '';
-  })
 
-  return {
-    renderBoard,
-  };
+  });
+  
 })();
-
-DisplayController.renderBoard()
