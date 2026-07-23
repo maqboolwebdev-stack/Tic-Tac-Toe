@@ -1,3 +1,5 @@
+import { startBtn,  getPlayerNames } from './players-names.js';
+
 const GameBoard = (function () {
   let board = ['', '', '', '', '', '', '', '', ''];
 
@@ -23,8 +25,16 @@ function Player(name, marker) {
 }
 
 const GameController = (function () {
-  const player1 = Player('Player-1', 'X');
-  const player2 = Player('Player-2', 'O');
+  
+  const player1 = Player('player 1 ', 'X');
+  const player2 = Player('Player 2 ', 'O');
+
+  const updateNames = () => {
+    const { player1Name, player2Name } = getPlayerNames();
+      player1.name = player1Name;
+      player2.name = player2Name;
+
+    };
 
   let currentPlayer = player1;
   let gameOver = false;
@@ -53,6 +63,7 @@ const GameController = (function () {
       tie: false,
       gameOver: false,
       nextPlayer: currentPlayer,
+      updateNames,
     };
   };
 
@@ -88,32 +99,29 @@ const GameController = (function () {
     gameOver = false;
   };
 
-  return { 
+  return {
     playRound,
-    restartGame, 
-    getCurrentPlayer: () => currentPlayer
-   };
-
+    restartGame,
+    getCurrentPlayer: () => currentPlayer,
+    updateNames,
+  };
 })();
 
 const DisplayController = (function () {
-
   const cells = document.querySelectorAll('.cell');
   const restartBtn = document.querySelector('.restart-btn');
   const winnerText = document.querySelector('.winner');
 
   const renderBoard = (result) => {
-
     const board = GameBoard.getBoard();
     cells.forEach((cell, index) => {
       cell.textContent = board[index];
-
     });
 
     if (result && result.gameOver) {
       if (result.tie) winnerText.textContent = 'Game is Tie!';
       else
-        winnerText.textContent = `${result.winner.name}('${result.winner.marker}') wins!`;
+        winnerText.textContent = `${result.winner.name} ('${result.winner.marker}') wins!`;
     } else {
       winnerText.textContent = '';
     }
@@ -129,7 +137,10 @@ const DisplayController = (function () {
   restartBtn.addEventListener('click', () => {
     GameController.restartGame();
     renderBoard();
-
   });
-  
 })();
+
+startBtn.addEventListener('click', () => {
+  GameController.updateNames();
+  console.log(GameController.getCurrentPlayer());
+});
