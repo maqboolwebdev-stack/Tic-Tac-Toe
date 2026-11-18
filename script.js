@@ -25,7 +25,7 @@ function Player(name, marker) {
 }
 
 const GameController = (function () {
-  
+
   const player1 = Player('player 1 ', 'X');
   const player2 = Player('Player 2 ', 'O');
 
@@ -142,5 +142,4 @@ const DisplayController = (function () {
 
 startBtn.addEventListener('click', () => {
   GameController.updateNames();
-  console.log(GameController.getCurrentPlayer());
 });
