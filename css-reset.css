@@ -15,10 +15,14 @@
     interpolate-size: allow-keywords;
   }
 }
-
+html,
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: 100%;
 }
 
 img,
@@ -69,4 +73,33 @@ h6 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+[role='button'] {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+button {
+  touch-action: manipulation;
+  transition:
+    transform 0.1s ease,
+    opacity 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+  opacity: 0.85;
 }
