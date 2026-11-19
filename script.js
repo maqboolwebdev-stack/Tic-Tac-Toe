@@ -1,4 +1,9 @@
-import { startBtn,  getPlayerNames } from './players-names.js';
+import { startBtn, getPlayerNames } from './players-names.js';
+
+const audioEffectsPromise = import('./audio.js').catch((error) => {
+  console.warn('Audio effects could not be loaded.', error);
+  return null;
+});
 
 const GameBoard = (function () {
   let board = ['', '', '', '', '', '', '', '', ''];
@@ -25,16 +30,14 @@ function Player(name, marker) {
 }
 
 const GameController = (function () {
-
   const player1 = Player('player 1 ', 'X');
   const player2 = Player('Player 2 ', 'O');
 
   const updateNames = () => {
     const { player1Name, player2Name } = getPlayerNames();
-      player1.name = player1Name;
-      player2.name = player2Name;
-
-    };
+    player1.name = player1Name;
+    player2.name = player2Name;
+  };
 
   let currentPlayer = player1;
   let gameOver = false;
@@ -42,23 +45,30 @@ const GameController = (function () {
   const playRound = (index) => {
     if (gameOver) return;
 
-    const success = GameBoard.placeMarker(index, currentPlayer.marker);
+    const playedMarker = currentPlayer.marker;
+    const success = GameBoard.placeMarker(index, playedMarker);
     if (!success) return;
 
     if (checkWinner()) {
       gameOver = true;
-      return { winner: currentPlayer, tie: false, gameOver: true };
+      return {
+        playedMarker,
+        winner: currentPlayer,
+        tie: false,
+        gameOver: true,
+      };
     }
 
     if (checkTie()) {
       gameOver = true;
 
-      return { winner: null, tie: true, gameOver: true };
+      return { playedMarker, winner: null, tie: true, gameOver: true };
     }
 
     currentPlayer = currentPlayer === player1 ? player2 : player1;
 
     return {
+      playedMarker,
       winner: null,
       tie: false,
       gameOver: false,
@@ -130,7 +140,18 @@ const DisplayController = (function () {
   cells.forEach((cell, index) => {
     cell.addEventListener('click', () => {
       const result = GameController.playRound(index);
-      if (result) renderBoard(result);
+      if (!result) return;
+
+      void audioEffectsPromise.then((audioEffects) => {
+        if (!audioEffects) return;
+
+        audioEffects.playMoveSound(result.playedMarker);
+        if (result.gameOver) {
+          audioEffects.playGameEndSound(result.tie ? 'draw' : 'success');
+        }
+      });
+
+      renderBoard(result);
     });
   });
 
