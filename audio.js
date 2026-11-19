@@ -1,4 +1,6 @@
 const SOUND_FILES = {
+  start: new URL('./audioes/start-sound.ogg', import.meta.url),
+  reStart: new URL('./audioes/re-start.wav', import.meta.url),
   X: new URL('./audioes/X-sound.wav', import.meta.url),
   O: new URL('./audioes/O-sound.wav', import.meta.url),
   draw: new URL('./audioes/draw-sound.wav', import.meta.url),
@@ -29,6 +31,14 @@ function playSound(name) {
 
 export function playMoveSound(marker) {
   playSound(marker);
+}
+
+export function playStartSound() {
+  playSound('start');
+}
+
+export function playReStartSound() {
+  playSound('reStart');
 }
 
 export function playGameEndSound(result) {

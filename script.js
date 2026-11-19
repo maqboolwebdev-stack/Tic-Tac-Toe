@@ -158,9 +158,19 @@ const DisplayController = (function () {
   restartBtn.addEventListener('click', () => {
     GameController.restartGame();
     renderBoard();
+
+    void audioEffectsPromise.then((audioEffects) => {
+    if (!audioEffects) return;
+    audioEffects.playReStartSound();
+  });
   });
 })();
 
 startBtn.addEventListener('click', () => {
   GameController.updateNames();
+
+  void audioEffectsPromise.then((audioEffects) => {
+    if (!audioEffects) return;
+    audioEffects.playStartSound();
+  });
 });
