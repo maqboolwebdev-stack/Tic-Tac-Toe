@@ -1,10 +1,10 @@
 const SOUND_FILES = {
-  start: new URL('./audioes/start-sound.ogg', import.meta.url),
-  reStart: new URL('./audioes/re-start.wav', import.meta.url),
-  X: new URL('./audioes/X-sound.wav', import.meta.url),
-  O: new URL('./audioes/O-sound.wav', import.meta.url),
-  draw: new URL('./audioes/draw-sound.wav', import.meta.url),
-  success: new URL('./audioes/success-sound-effect.mp3', import.meta.url),
+  start: new URL('../assets/audioes/start-sound.ogg', import.meta.url),
+  reStart: new URL('../assets/audioes/re-start.wav', import.meta.url),
+  X: new URL('../assets/audioes/X-sound.wav', import.meta.url),
+  O: new URL('../assets/audioes/O-sound.wav', import.meta.url),
+  draw: new URL('../assets/audioes/draw-sound.wav', import.meta.url),
+  success: new URL('../assets/audioes/success-sound-effect.mp3', import.meta.url),
 };
 
 const audioCache = new Map();
