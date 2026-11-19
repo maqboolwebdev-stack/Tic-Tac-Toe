@@ -177,7 +177,7 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.5rem;
   justify-content: center;
 }
 
@@ -296,4 +296,39 @@ button:focus-visible {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+
+/* speaker icon svg style*/
+
+.icon-sound-on,
+.icon-sound-muted {
+  width: 2.3rem;
+  height: auto;
+}
+
+.icon-sound-muted {
+  display: none;
+}
+
+#sound-btn {
+  background-color: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: .5rem;
+  border-radius: 50%;
+  transition: all 150ms ease;
+
+}
+
+#sound-btn.is-muted .icon-sound-on {
+  display: none;
+}
+
+#sound-btn.is-muted .icon-sound-muted {
+  display: block;
+}
+
+#sound-btn:hover {
+  border: 1px solid var(--primary-color);
 }
