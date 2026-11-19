@@ -1,11 +1,11 @@
 const SOUND_FILES = {
-  toggle: new URL('../assets/audios/speaker-toggle.mp3', import.meta.url),
-  start: new URL('../assets/audios/start-sound.ogg', import.meta.url),
-  reStart: new URL('../assets/audios/re-start.wav', import.meta.url),
-  X: new URL('../assets/audios/X-sound.wav', import.meta.url),
-  O: new URL('../assets/audios/O-sound.wav', import.meta.url),
-  draw: new URL('../assets/audios/draw-sound.wav', import.meta.url),
-  success: new URL('../assets/audios/success-sound-effect.mp3', import.meta.url),
+  toggle: new URL('./assets/audios/speaker-toggle.mp3', import.meta.url),
+  start: new URL('./assets/audios/start-sound.ogg', import.meta.url),
+  reStart: new URL('./assets/audios/re-start.wav', import.meta.url),
+  X: new URL('./assets/audios/X-sound.wav', import.meta.url),
+  O: new URL('./assets/audios/O-sound.wav', import.meta.url),
+  draw: new URL('./assets/audios/draw-sound.wav', import.meta.url),
+  success: new URL('./assets/audios/success-sound-effect.mp3', import.meta.url),
 };
 
 const audioCache = new Map();
